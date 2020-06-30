@@ -29,7 +29,6 @@ gem 'jbuilder', '~> 2.7'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
-  gem 'rspec-rails', '~> 4.0.0'
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
 end
 
@@ -52,3 +51,13 @@ end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "bootstrap", "~> 4.5"
+# React.js integration with Rails
+gem "react-rails", "~> 2.6"
+# user authentication
+gem 'devise'
+# user authorization
+gem 'pundit'
+
+gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'master'
