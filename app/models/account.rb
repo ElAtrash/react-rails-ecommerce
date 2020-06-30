@@ -1,6 +1,7 @@
 class Account < ApplicationRecord
-  enum role: [:User, :Manager,:Admin]
+  enum role: [:User, :Manager, :Admin]
   has_many :orders
+  has_many :carts
   validates :role, presence: true
   validates :email, presence: true, uniqueness: true
   
