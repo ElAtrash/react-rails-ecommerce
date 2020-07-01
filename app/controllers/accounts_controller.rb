@@ -12,9 +12,9 @@ class AccountsController < ApplicationController
 
   def check_for_account
     if current_account
-      render json: current_account
+      render json: {status: 'true', email: current_account.email}
     else
-      render json: {account: nil}
+      render json: {status: 'false'}
     end
   end
 
