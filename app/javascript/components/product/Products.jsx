@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Products extends React.Component {
   constructor(props) {
@@ -46,13 +44,6 @@ class Products extends React.Component {
               </Link>
               <div className="mt-2">
                 <span>${product.price}</span>
-
-                <Link to="#" className="btn float-right">
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    style={{ color: "#4D7C8A" }}
-                  />
-                </Link>
               </div>
             </div>
           </div>
