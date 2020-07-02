@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_13_143442) do
+ActiveRecord::Schema.define(version: 2020_07_02_124406) do
 
   create_table "accounts", force: :cascade do |t|
     t.integer "role", default: 0
@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(version: 2020_06_13_143442) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.integer "account_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
