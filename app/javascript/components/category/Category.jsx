@@ -47,7 +47,12 @@ class Category extends React.Component {
                 />
               </div>
               <div className="card-body">
-                {categoryProduct.title}
+                <Link
+                  to={`/product/${categoryProduct.id}`}
+                  className="text-body font-weight-bold"
+                >
+                  {categoryProduct.title}
+                </Link>
                 <div className="mt-2">
                   <span>${categoryProduct.price}</span>
 
