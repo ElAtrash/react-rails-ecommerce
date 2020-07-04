@@ -36,6 +36,11 @@ class Navbar extends React.Component {
     })();
   }
   render() {
+    let cart =
+      localStorage.getItem("cart") == null
+        ? []
+        : JSON.parse(localStorage.getItem("cart"));
+    let quantityLabel = cart.length;
     return (
       <nav
         className="navbar navbar-expand-lg navbar-dark"
@@ -77,28 +82,36 @@ class Navbar extends React.Component {
           <div>
             <ul className="navbar-nav mr-auto">
               <li className="nav-item active">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/cart">
                   <FontAwesomeIcon
                     icon={faShoppingCart}
                     style={{ color: "white" }}
                   />
+                  {quantityLabel}
                 </a>
               </li>
               {this.state.currentAccount ? (
-                <li className="nav-item active">
-                  <a
-                    className="nav-link"
-                    href="/accounts/sign_out"
-                    method="POST"
-                  >
-                    Sign Out <span className="sr-only">(current)</span>
-                  </a>
-                </li>
+                <React.Fragment>
+                  <li className="nav-item active">
+                    <a className="nav-item nav-link disabled">
+                      Hello, {this.state.currentAccount}
+                    </a>
+                  </li>
+                  <li className="nav-item active">
+                    <a
+                      className="nav-link"
+                      href="/accounts/sign_out"
+                      method="POST"
+                    >
+                      Sign Out <span className="sr-only">(current)</span>
+                    </a>
+                  </li>
+                </React.Fragment>
               ) : (
                 <React.Fragment>
                   <li className="nav-item active">
                     <a className="nav-link" href="/accounts/sign_in">
-                      Sign In <span className="sr-only">(current)</span>
+                      Log In <span className="sr-only">(current)</span>
                     </a>
                   </li>
                   <li className="nav-item active">

@@ -1,6 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class Product extends React.Component {
@@ -43,8 +42,40 @@ class Product extends React.Component {
     return String(str).replace(/&lt;/g, "<").replace(/&gt;/g, ">");
   }
 
+  handleChange = (e) => {
+    this.setState({ quantity: e.target.value });
+  };
+
+  addToCart = (id, image_url, title, price) => () => {
+    let cart =
+      localStorage.getItem("cart") == null
+        ? []
+        : JSON.parse(localStorage.getItem("cart"));
+    const item = cart.find((i) => i.id == id);
+
+    let user_defined_quantity_node = document.getElementById("quantity");
+
+    if (user_defined_quantity_node != null) {
+      let user_defined_quantity = parseInt(user_defined_quantity_node.value);
+      if (item == undefined) {
+        cart.push({
+          id: id,
+          image_url: image_url,
+          title: title,
+          quantity: user_defined_quantity,
+          price: user_defined_quantity * price,
+        });
+      } else {
+        (item.quantity += user_defined_quantity),
+          (item.price += user_defined_quantity * price);
+      }
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+  };
+
   render() {
     const { product } = this.state;
+    console.log(this.state.quantity);
 
     return (
       <div className="container">
@@ -65,26 +96,40 @@ class Product extends React.Component {
               >
                 $ {product.price}
               </strong>
-
               <p className="card-text mb-auto">{product.description}</p>
-              <div className="mb-auto">
-                Quantity:
-                <input
-                  type="number"
-                  className="form-control"
-                  value={this.state.quantity}
-                  defaultValue="1"
-                  onChange={this.handleChange}
-                />
-              </div>
-              <div className="btn-group cart ">
-                <Link to="#" className="btn">
-                  <FontAwesomeIcon
-                    icon={faCartPlus}
-                    style={{ color: "#4D7C8A" }}
+              <form onSubmit={this.handleSubmit}>
+                <div className="mb-auto">
+                  Quantity:
+                  <input
+                    type="number"
+                    className="form-control col-5"
+                    id="quantity"
+                    max="30"
+                    min="1"
+                    value={this.state.quantity}
+                    defaultValue="1"
+                    onChange={this.handleChange}
                   />
-                </Link>
-              </div>
+                </div>
+                <br />
+                <div className="btn-group cart ">
+                  <button
+                    type="button"
+                    onClick={this.addToCart(
+                      product.id,
+                      product.image_url,
+                      product.title,
+                      product.price
+                    )}
+                    className="btn btn-dark"
+                    style={{ backgroundColor: "#4D7C8A" }}
+                  >
+                    <FontAwesomeIcon icon={faShoppingCart} />
+                    <span> </span>
+                    Add to Cart
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
