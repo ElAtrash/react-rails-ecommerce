@@ -1,21 +1,20 @@
+# frozen_string_literal: true
+
 class Api::V1::CartsController < ApplicationController
-  before_action :set_cart, only: [:show, :edit, :update, :destroy]
+  before_action :set_cart, only: %i[show edit update destroy]
 
   def index
     @carts = Cart.all
     render json: @carts
   end
 
-  def show
-    render json: @cart
-  end
+  def show; end
 
   def new
     @cart = Cart.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @cart = Cart.new(cart_params)
@@ -31,21 +30,23 @@ class Api::V1::CartsController < ApplicationController
     if @cart.update(cart_params)
       render :show, status: :ok, location: @cart
     else
-      render json: @cart.errors, status: :unprocessable_entity 
+      render json: @cart.errors, status: :unprocessable_entity
     end
   end
 
   def destroy
-    @cart.destroy
-    format.json { head :no_content }
+    @cart.destroy if @cart.id == session[:cart_id]
+    session[:cart_id] = nil
+    format.json `{ head :no_content }`
   end
 
   private
-    def set_cart
-      @cart = Cart.find(params[:id])
-    end
 
-    def cart_params
-      params.require(:cart).permit(:account_id)
-    end
+  def set_cart
+    @cart = Cart.find(params[:id])
+  end
+
+  def cart_params
+    params.fetch(:cart, {})
+  end
 end

@@ -1,5 +1,5 @@
 class AccountsController < ApplicationController
-  before_action :set_account, only: [:show, :edit, :update, :destroy]
+  before_action :set_account, only: %i[show edit update destroy]
 
   def index
     @accounts = policy_scope(Account).all
@@ -12,9 +12,10 @@ class AccountsController < ApplicationController
 
   def check_for_account
     if current_account
-      render json: {status: 'true', email: current_account.email}
+      # if session[:account_id]
+      render json: { status: 'true', email: current_account.email }
     else
-      render json: {status: 'false'}
+      render json: { status: 'false' }
     end
   end
 
@@ -22,8 +23,7 @@ class AccountsController < ApplicationController
     @account = Account.new
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     @account = Account.new(account_params)
@@ -45,15 +45,16 @@ class AccountsController < ApplicationController
 
   def destroy
     @account.destroy
-    render json { head :no_content }
+    render `json { head :no_content }`
   end
 
   private
-    def set_account
-      @account = policy_scope(Account).find(params[:id])
-    end
 
-    def account_params
-      params.require(:account).permit(:email, :role)
-    end
+  def set_account
+    @account = policy_scope(Account).find(params[:id])
+  end
+
+  def account_params
+    params.require(:account).permit(:email, :role)
+  end
 end
